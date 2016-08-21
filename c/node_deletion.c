@@ -84,7 +84,7 @@ int create_list(int no_of_nodes)
 	for (i = 0; i < no_of_nodes; i++) {
 		newnode = malloc(sizeof(struct list));
 		newnode->next = NULL;
-		newnode->data = i;
+		newnode->data = i + 1;
 		dbg("newnode addr: %p\n", newnode);
 		if (!newnode) {
 			printf("Memory allocation failed\n");
@@ -125,9 +125,11 @@ void node_del(int pos)
 	/*
 	 * last pos delition to be handled.
 	 */
-	if (i == 1)
+	if (i == 1 && tmp->next)
 		head = tmp->next;
 
-	prev->next = tmp->next;
-	free(tmp);
+	if (tmp) {
+		prev->next = tmp->next;
+		free(tmp);
+	}
 }
