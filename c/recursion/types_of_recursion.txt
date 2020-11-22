@@ -1,0 +1,41 @@
+
+// SPDX-License-Identifier: GPL-2.0+
+/*
+ * 2020+ Copyright (c) WebEm <embconnect001@gmail.com>
+ * All rights reserved.
+ */
+
+Types of recursion:
+
+Tail recursion:
+If the recursive function is calling itself and that call is a lat call 
+statement then it is called tail recursion. refer(recusrion.c). Loop is 
+more efficient when compared to tail recursion.
+
+Head recursion:
+the first statement inside the function is a recursive call and no
+statement before the function call. eg No processing at the time of
+calling, all processing done at the time of returning.
+
+eg
+void func()
+{
+	if (n > 0)
+	func(n-1);
+	xxxxx;
+	xxxxx;
+	xxxxx;
+	xxxxx;
+}
+
+tree recursion:
+Function calling itself multiple times.\
+refer example tree_recursion.c
+
+indirect recurision:
+functionA->functionB->fuctionA
+refer indirect_recursion.c
+
+Nested recursion:
+a recurisve call taking recursive call as parameter. 
+recursive inside recursive function
