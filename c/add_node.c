@@ -109,6 +109,16 @@ void delete_node(int pos)
 
 }
 
+void display_recursive(struct node *temp)
+{
+
+	if (temp != NULL) {
+		display_recursive(temp->next);
+		printf("data is %d\n", temp->data);
+
+	}
+}
+
 int main(int argv, char *argc[])
 {
 	print_list();
@@ -123,8 +133,11 @@ int main(int argv, char *argc[])
 	add_node_end(45);
 	add_node_end(50);
 	print_list();
+	printf("***print reverse using recursive logic***\n");
+	display_recursive(head);
 	delete_node(2);
 	print_list();
+	display_recursive(head);
 
 	return 0;
 }
