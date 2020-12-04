@@ -1,7 +1,13 @@
 // C program to create a thread
 
+// SPDX-License-Identifier: GPL-2.0+
+/*
+
+2020+ Copyright (c)
+All rights reserved.
+*/
+
 #include<stdio.h>
-#include<stdlib.h>
 #include<pthread.h>
 #include<unistd.h>
 
