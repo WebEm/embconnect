@@ -26,32 +26,32 @@ int main(int argc, char *argv[])
 	int msgid; 
 	qkey = ftok("send.c", 65); 
 	msgid = msgget(qkey, 0666 | IPC_CREAT); 
-	if(qkey == -1) {
+	if (qkey == -1) {
         perror("qkey");
         exit(1);
     }
-    if(msgid == -1) {
+    if (msgid == -1) {
         perror("msgid");
         exit(1);
     }
 	msgrcv(msgid, &message, sizeof(message), 1, 0); 
 	char op = *message.msg_text;
-	if(argc<=1) {
+	if (argc<=1) {
         printf("Input the numbers");
         exit(1);
     }  
 	a = atoi(argv[1]);
 	b = atoi(argv[2]);
-	if(op == '+') {
+	if (op == '+') {
 	        c = a + b;
 	}
-	if(op == '-') {
+	if (op == '-') {
 	        c = a - b;
 	}
-	if(op == '*') {
+	if (op == '*') {
 	        c = a * b;
 	}
-	if(op == '/') {
+	if (op == '/') {
 	        c = a / b;
 	}
 	printf("The operation to be performed is: %s and the answer is: %f\n", 

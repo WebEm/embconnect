@@ -25,11 +25,11 @@ int main()
 	int msgid; 
 	qkey = ftok("send.c", 65); 
 	msgid = msgget(qkey, 0666 | IPC_CREAT); 
-	if(qkey == -1) {
+	if (qkey == -1) {
         perror("qkey");
         exit(1);
-    }
-    if(msgid == -1) {
+    } 
+    if (msgid == -1) {
         perror("msgid");
         exit(1);
     }
