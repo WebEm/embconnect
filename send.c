@@ -26,14 +26,14 @@ int main()
 	qkey = ftok("send.c", 65); 
 	msgid = msgget(qkey, 0666 | IPC_CREAT); 
 	if (qkey == -1) {
-        perror("qkey");
-        exit(1);
-    } 
-    if (msgid == -1) {
-        perror("msgid");
-        exit(1);
-    }
-    printf("Operation to be performed: "); 
+        	perror("qkey");
+        	exit(1);
+        } 
+        if (msgid == -1) {
+        	perror("msgid");
+        	exit(1);
+    	}
+        printf("Operation to be performed: "); 
 	message.msg_type = 1; 
 	fgets(message.msg_text, MAX, stdin); 
 	msgsnd(msgid, &message, sizeof(message), 0);
