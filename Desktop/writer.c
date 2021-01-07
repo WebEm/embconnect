@@ -1,5 +1,11 @@
 // IPC using shared memory- Write program
 
+// SPDX-License-Identifier: GPL-2.0+
+/*
+ 2020+ Copyright (c) gayathri-bytes <gaya3velu.25@gmail.com>
+ All rights reserved.
+*/
+
 #include <sys/ipc.h>
 #include <sys/shm.h>
 #include <sys/types.h>
