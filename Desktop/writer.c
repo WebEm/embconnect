@@ -1,0 +1,32 @@
+// IPC using shared memory- Write program
+
+#include <sys/ipc.h>
+#include <sys/shm.h>
+#include <sys/types.h>
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    int returnval, shmid;
+    void *mem = NULL;
+    char *p;
+    shmid = shmget((key_t)1234, 100, IPC_CREAT|0666);
+    if (shmid < 0) {
+        printf("Key creation failed");
+        shmid = shmget((key_t)1234, 6, 0666);
+    }
+    mem = shmat(shmid, NULL, 0);
+    p = (char *)mem;
+    if (p == NULL) {
+        printf("Attachment Failed");
+        return 0;
+    }
+    memset(p, '\0', 100);
+    memcpy(p, "Hi! Guten Morgen\n", 100);
+    returnval = shmdt (p);
+    if (returnval < 0) {
+        printf("Detachment failed");
+        return 0;
+    }
+}
