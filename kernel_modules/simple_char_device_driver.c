@@ -10,9 +10,12 @@
 #include <linux/device.h>
 #include <linux/kdev_t.h>
 
+#define DEVICE_NAME "chardevice"
 dev_t dev = 0;
 static struct class *dev_class;
 static struct cdev scull_cdev;
+static struct device *char_device = NULL;
+static int major_number;
 
 /*
  * This function is invoked when the device node is opened
@@ -81,9 +84,11 @@ static int __init chr_dev_init(void)
 	 */
 
 	if (alloc_chrdev_region(&dev, 0 ,1, "scull_dev") < 0) {
-		printk ("char dev alloc failed and major no not allocated\n");
+		printk("char dev alloc failed and major no not allocated\n");
 		return -1;
 	}
+	major_number = MAJOR(dev);
+	printk("Major number allocated is %d\n", major_number);
 
 	/**
 	 * cdev_init() - initialize a cdev structure
@@ -129,10 +134,43 @@ static int __init chr_dev_init(void)
 
 	if ((dev_class = class_create(THIS_MODULE, "sys_class")) == NULL) {
 		printk("can't create device \n");
+		unregister_chrdev_region(dev, 1);
+		return PTR_ERR(dev_class);
+	}
+
+	/**
+	 * device_create - creates a device and registers it with sysfs
+	 * @class: pointer to the struct class that this device should be registered to
+	 * @parent: pointer to the parent struct device of this new device, if any
+	 * @devt: the dev_t for the char device to be added
+	 * @drvdata: the data to be added to the device for callbacks
+	 * @fmt: string for the device's name
+	 *
+	 * This function can be used by char device classes.  A struct device
+	 * will be created in sysfs, registered to the specified class.
+	 *
+	 * A "dev" file will be created, showing the dev_t for the device, if
+	 * the dev_t is not 0,0.
+	 * If a pointer to a parent struct device is passed in, the newly created
+	 * struct device will be a child of that device in sysfs.
+	 * The pointer to the struct device will be returned from the call.
+	 * Any further sysfs files that might be required can be created using this
+	 * pointer.
+	 *
+	 * Returns &struct device pointer on success, or ERR_PTR() on error.
+	 *
+	 * Note: the struct class passed to this function must have previously
+	 * been created with a call to class_create().
+	 */
+	char_device = device_create(dev_class, NULL, MKDEV(major_number, 0), NULL, DEVICE_NAME);
+	if (IS_ERR(char_device)) {
 		class_destroy(dev_class);
 		unregister_chrdev_region(dev, 1);
-		return -1;
+		printk(KERN_ALERT "Failed to create the device node\n");
+		return PTR_ERR(char_device);
+
 	}
+
 	return 0;
 }
 
